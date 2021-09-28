@@ -1,0 +1,125 @@
+<style>
+    #canvas{
+        background-color: black;
+    }
+</style>
+<canvas id='canvas' width=600 height=400></canvas>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");    
+    var pontos = [[100, 100], [200, 370], [400, 150], [450, 50], [200, 10],[180, 12]];
+    ctx.strokeStyle = 'white';
+    
+    var nVertices = pontos.length;
+    var cont = 0;
+    var cont1 = 0;
+    var cont2 = 1;
+    var cont3 = 0;
+    var cont4 = 1;
+    
+    gerarDesenho();
+    calcularArea();
+    calcularPerimetro();
+    
+    function gerarDesenho(){
+        
+        ctx.moveTo(pontos[cont][0], pontos[cont][1]);
+    
+        while(cont <= nVertices){        
+            if(cont == nVertices){
+                ctx.lineTo(pontos[0][0], pontos[0][1]);
+            }else{
+                ctx.lineTo(pontos[cont][0], pontos[cont][1]);
+            }        
+            cont ++;
+        }
+        
+        ctx.stroke();
+    }
+    
+
+    function calcularArea(){        
+        var rs = 0;
+        var rs1 = 0;
+        var rs2 = 0;
+        
+        while (cont1 < nVertices){
+            if(cont2 != nVertices){                
+                rs1 = rs1 + pontos[cont1][0] * pontos[cont2][1];                
+            }else{
+                rs1 = rs1 + pontos[cont1][0] * pontos[0][1];      
+            }                        
+            cont1 ++;
+            cont2 ++;
+        }
+        
+        cont1 = 0;
+        cont2 = 1;       
+        
+        while (cont1 < nVertices){
+            if(cont2 != nVertices){                
+                rs2 = rs2 + pontos[cont1][1] * pontos[cont2][0];                
+            }else{
+                rs2 = rs2 + pontos[cont1][1] * pontos[0][0];      
+            }                        
+            cont1 ++;
+            cont2 ++;
+        }
+               
+        if(rs1 > rs2){
+            rs = rs1 - rs2;
+            rs = rs / 2;
+        }else{
+            rs = rs2 - rs1;
+            rs = rs / 2;
+        }
+        
+        console.log('Area = ' + rs);
+    }
+    
+    function calcularPerimetro(){
+        var distVertices = [];
+    
+        var rsX = 0;
+        var rsY = 0;
+        var hp = 0;
+        var perimetro = 0;
+        
+        while(cont3 < nVertices){
+            if(cont4 != nVertices){
+                rsX = pontos[cont3][0] - pontos[cont4][0];
+                rsY = pontos[cont3][1] - pontos[cont4][1];
+            }else{
+                rsX = pontos[cont3][0] - pontos[0][0];
+                rsY = pontos[cont3][1] - pontos[0][1];
+            }            
+            
+            if(rsX < 0){
+                rsX = -rsX;
+            }            
+            
+            if(rsY < 0){
+                rsY = -rsY;
+            }
+            
+            hp = rsX * rsX + rsY * rsY;
+        
+            hp = Math.sqrt(hp);
+            
+            distVertices.push(hp);
+            cont3 ++;
+            cont4 ++;
+        }
+        console.log(distVertices);
+        var cont5 = 0;
+        var infoVertices = distVertices.length;
+        while(cont5 < infoVertices){            
+            perimetro += distVertices[cont5];            
+            cont5 ++;
+        }
+        
+        console.log(perimetro);
+        
+    }
+    
+</script>
